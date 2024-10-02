@@ -44,9 +44,74 @@
         main {
             color: white;
         }
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
+    <div class="preloader">
+        <div class="preloader-spinner"></div>
+    </div>
+
+    <script>
+        window.addEventListener('load', function() {
+            const preloader = document.querySelector('.preloader');
+            const text = 'Welcome to $WOODENG';
+            let index = 0;
+
+            function decodeText() {
+                if (index < text.length) {
+                    let decodedText = '';
+                    for (let i = 0; i < text.length; i++) {
+                        if (i <= index) {
+                            decodedText += text[i];
+                        } else {
+                            decodedText += '.';
+                        }
+                    }
+                    preloader.textContent = decodedText;
+                    index++;
+                    setTimeout(decodeText, 100);
+                } else {
+                    setTimeout(function() {
+                        preloader.style.display = 'none';
+                    }, 1000);
+                }
+            }
+
+            decodeText();
+        });
+
+        // Add styles for the preloader text
+        const style = document.createElement('style');
+        style.textContent = `
+            .preloader {
+                color: white;
+                font-size: 24px;
+                font-family: 'Courier New', monospace;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
     <header>
         <nav>
             <a href="#pump">Pump</a>
@@ -60,7 +125,7 @@
             <img src="woodeng.png" alt="$WOODENG Beaver Logo">
         </div>
        <center>
-        <h1>Welcome to $WOODENG</h1>
+        <h1>Welcome to <span class="blink">$WOODENG</span></h1>
         <p>Fun token</p>
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
@@ -94,6 +159,14 @@
                 font-family: 'Orbitron', sans-serif;
                 font-size: 1rem;
                 border-radius: 5px;
+            }
+            .blink {
+                animation: blinker 2s linear infinite;
+            }
+            @keyframes blinker {
+                50% {
+                    opacity: 0;
+                }
             }
         </style>
         <div class="copy-container">
